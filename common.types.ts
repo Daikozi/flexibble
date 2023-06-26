@@ -1,5 +1,26 @@
 import { User, Session } from "next-auth";
 
+type CreateBy = {
+  name: string;
+  email: string;
+  avatarUrl: string;
+  id: string;
+};
+
+type PageInfo = {
+  hasPreviousPage: boolean;
+  hasNextPage: boolean;
+  startCursor: string;
+  endCursor: string;
+};
+
+type Node = { node: ProjectInterface }[];
+
+type Project = {
+  edges: Node;
+  pageInfo: PageInfo;
+};
+
 export type FormState = {
   title: string;
   description: string;
@@ -9,7 +30,7 @@ export type FormState = {
   category: string;
 };
 
-export interface ProjectInterface {
+export type ProjectInterface = {
   title: string;
   description: string;
   image: string;
@@ -17,47 +38,34 @@ export interface ProjectInterface {
   githubUrl: string;
   category: string;
   id: string;
-  createdBy: {
-    name: string;
-    email: string;
-    avatarUrl: string;
-    id: string;
-  };
-}
+  createdBy: CreateBy;
+};
 
-export interface UserProfile {
+export type UserProfile = {
   id: string;
   name: string;
   email: string;
   description: string | null;
   avatarUrl: string;
   githubUrl: string | null;
-  linkedinUrl: string | null;
-  projects: {
-    edges: { node: ProjectInterface }[];
-    pageInfo: {
-      hasPreviousPage: boolean;
-      hasNextPage: boolean;
-      startCursor: string;
-      endCursor: string;
-    };
-  };
-}
+  linkedInUrl: string | null;
+  projects: Project;
+};
 
-export interface SessionInterface extends Session {
+export type SessionInterface = {
   user: User & {
     id: string;
     name: string;
     email: string;
     avatarUrl: string;
   };
-}
+} & Session;
 
-export interface ProjectForm {
+export type ProjectForm = {
   title: string;
   description: string;
   image: string;
   liveSiteUrl: string;
   githubUrl: string;
   category: string;
-}
+};
